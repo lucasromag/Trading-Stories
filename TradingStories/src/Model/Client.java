@@ -36,18 +36,6 @@ public class Client extends User {
 	public Collection<Complaint> getComplaints() {
 		return complaints;
 	}
-	
-	public updateComplaintStatus(Complaint compl)
-	{
-		
-		public static Predicate<Complaints> isSameComplain(){
-			return p -> p.
-		}
-		
-		complaints.removeIf()
-		complaints.remove(com)
-		
-	}
 
 	public void addTransaction(Transaction trans) {
 		transactions.add(trans);

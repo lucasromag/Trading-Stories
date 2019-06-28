@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class Book {
 
@@ -10,7 +11,7 @@ public class Book {
 
 	private String publisher;
 
-	private Calendar releaseDate;
+	private Date releaseDate;
 
 	private String state;
 
@@ -22,7 +23,7 @@ public class Book {
 		return title;
 	}
 
-	public Book(String title, String author, String publisher, Calendar releaseDate, String state, String genre,Client owner) {
+	public Book(String title, String author, String publisher, Date releaseDate, String state, String genre,Client owner) {
 		this.title = title;
 		this.author = author;
 		this.publisher = publisher;
@@ -40,7 +41,7 @@ public class Book {
 		return publisher;
 	}
 
-	public Calendar getreleaseDate() {
+	public Date getreleaseDate() {
 		return releaseDate;
 	}
 
