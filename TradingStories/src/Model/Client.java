@@ -1,16 +1,18 @@
 package Model;
 
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.function.Predicate;
 
 public class Client extends User {
 
 	private String nickname;
 
 	private float owlStars = 0;
+	
+	private int amountEval = 0;
 
 	private Collection<Transaction> transactions;
-
-	private Collection<Book> books;
 
 	private Collection<Complaint> complaints;
 
@@ -18,7 +20,7 @@ public class Client extends User {
 		return nickname;
 	}
 
-	public Client(String user, String password, String completeName, char gender, String address, long telephoneNum, String nickname, String email) {
+	public Client(String user, String password, String completeName, char gender, String address, String telephoneNum, String nickname, String email) {
 	super(user,password,completeName,gender,address,telephoneNum,email);
 	this.nickname = nickname;
 	}
@@ -34,10 +36,32 @@ public class Client extends User {
 	public Collection<Complaint> getComplaints() {
 		return complaints;
 	}
-
-	public Collection<Book> getBooks() {
-		return books;
+	
+	public updateComplaintStatus(Complaint compl)
+	{
+		
+		public static Predicate<Complaints> isSameComplain(){
+			return p -> p.
+		}
+		
+		complaints.removeIf()
+		complaints.remove(com)
+		
 	}
 
+	public void addTransaction(Transaction trans) {
+		transactions.add(trans);
+	}
+		
+	public void addComplaint(Complaint compl) {
+		complaints.add(compl);
+	}
+	
+	public void updateOwlStars(int score) {
+		owlStars *= amountEval;
+		amountEval += 1;
+		owlStars = (owlStars + score)/ amountEval;
+	}
+	
 
 }

@@ -1,6 +1,6 @@
 package Model;
 
-import java.util.Calendar;
+import java.util.Date;
 
 public class Transaction {
 
@@ -10,13 +10,13 @@ public class Transaction {
 
 	private OwlSpot location;
 
-	private Calendar date;
+	private Date date;
 
 	private Book bookGiven;
 
 	private Book bookReceived;
 
-	public Calendar getDate() {
+	public Date getDate() {
 		return date;
 	}
 
@@ -28,7 +28,7 @@ public class Transaction {
 		return user;
 	}
 
-	public Transaction(String status, Client user, OwlSpot location, Calendar date, Book bookGiven, Book bookReceived) {
+	public Transaction(String status, Client user, OwlSpot location, Date date, Book bookGiven, Book bookReceived) {
 		this.status = status;
 		this.user = user;
 		this.location = location;
@@ -48,5 +48,7 @@ public class Transaction {
 	public OwlSpot getLocation() {
 		return location;
 	}
+	
+	
 
 }

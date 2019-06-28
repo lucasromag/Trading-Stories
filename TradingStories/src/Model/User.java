@@ -14,13 +14,13 @@ public class User {
 
 	private String address;
 
-	private long telephoneNum;
+	private String telephoneNum;
 
 	public boolean validateCredentials(String password) {
 		return this.password.contentEquals(password);
 	}
 
-	public User(String user, String password, String completeName, char gender, String address, long telephoneNum, String email) {
+	public User(String user, String password, String completeName, char gender, String address, String telephoneNum, String email) {
 		this.username = user;
 		this.password = password;
 		this.completeName = completeName;
@@ -50,7 +50,7 @@ public class User {
 		return address;
 	}
 
-	public long getTelephone() {
+	public String getTelephone() {
 		return telephoneNum;
 	}
 	

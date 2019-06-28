@@ -15,18 +15,21 @@ public class Book {
 	private String state;
 
 	private String genre;
+	
+	private Client owner;
 
 	public String getTitle() {
 		return title;
 	}
 
-	public Book(String title, String author, String publisher, Calendar releaseDate, String state, String genre) {
+	public Book(String title, String author, String publisher, Calendar releaseDate, String state, String genre,Client owner) {
 		this.title = title;
 		this.author = author;
 		this.publisher = publisher;
 		this.releaseDate = releaseDate;
 		this.state = state;
 		this.genre = genre;
+		this.owner = owner;
 	}
 
 	public String getAuthor() {
@@ -49,4 +52,12 @@ public class Book {
 		return genre;
 	}
 
+	public Client getOwner() {
+		return owner;
+	}
+	public void setOwner(Client owner) {
+		this.owner = owner;
+		
+	}
+	
 }

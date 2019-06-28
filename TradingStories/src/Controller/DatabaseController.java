@@ -1,10 +1,17 @@
-package Model;
+package Controller;
 
+import java.io.PrintWriter;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Database {
+import Model.Administrator;
+import Model.Client;
+import Model.OwlSpot;
+
+public class DatabaseController {
 
 	private final Map<String,Client> clientAccounts;
 
@@ -12,17 +19,25 @@ public class Database {
 
 	private final Map<String,OwlSpot> owlSpots;
 
-	public Database() {
+	public DatabaseController() {
 		clientAccounts = new HashMap<>();
 		adminAccounts = new HashMap<>();
 		owlSpots = new HashMap<>();
+		
+	
 		//String user, String password, String completeName, char gender, String address, long telephoneNum, String email) {
 			//super(user,password,completeName,gender,address,telephoneNum,email);
 			//String user, String password, String completeName, char gender, String address, long telephoneNum, String nickname, String email)
-		Administrator admin1 = new Administrator("ronaldinho","1234","Ronald Dickson",'M',"Rua Joao Mendes 1040",32481022,"sweetpotato@gmail.com");
-		Client client1 = new Client("silva","1234","Dick Ronaldson",'M',"Rua Joao Mendes 1040",32481022,"sweetey","sweetpotato@gmail.com");
+		Administrator admin1 = new Administrator("ronaldinho","1234","Ronald Dickson",'M',"Rua Joao Mendes 1040","992323232","sweetpotato@gmail.com");
+		Client client1 = new Client("silva","1234","Dick Ronaldson",'M',"Rua Joao Mendes 1040","323232432","sweetey","sweetpotato@gmail.com");
 		
+	
 		add(client1);
+		Date today = new Date();
+		Book b1 = new Book("A crise de 1942","Jose Fagundes","Nintendo",)
+		//client1.addBook();
+		
+		
 		add(admin1);
 		
 	}

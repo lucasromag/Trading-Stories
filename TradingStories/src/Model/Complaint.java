@@ -2,6 +2,7 @@ package Model;
 
 public class Complaint {
 
+	
 	private String status;
 
 	private String complaint;

@@ -1,4 +1,4 @@
-import Model.Database;
+import Controller.DatabaseController;
 
 
 import Controller.AccManagementController;
@@ -7,11 +7,10 @@ public class TradingStories {
 
 	public static void main(String[] args) {
 		
-		Database database = new Database();
+		DatabaseController database = new DatabaseController();
 		
 		AccManagementController accManagementController = new AccManagementController(database);
 		
-		System.out.print(accManagementController.clientLogin("silva", "1234")); //should print true
 		
 	}
 

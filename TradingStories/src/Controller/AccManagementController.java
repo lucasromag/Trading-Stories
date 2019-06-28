@@ -1,22 +1,28 @@
 package Controller;
+import Model.Administrator;
 import Model.Client;
-import Model.Database;
+import Model.User;
 
 public class AccManagementController {
 
-	private Database database;
+	private DatabaseController database;
 
-	public void clientSignup(String user, String password, String completeName, char gender, String address, long telephoneNum, String nickname, String email) {
+	public void clientSignup(String user, String password, String completeName, char gender, String address, String telephoneNum, String nickname, String email) {
 		Client client = new Client(user,password,completeName,gender,address,telephoneNum,nickname,email);
 		database.add(client);
 	}
 
-	public boolean clientLogin(String user, String password) {
+	public User login(String user, String password) {
 		Client client = database.getClient(user);
-		return client.validateCredentials(password);
+		if(client != null)
+			return client;
+		Administrator admin = database.getAdministrator(user);
+		if(admin != null)
+			return admin;
+		return null;
 	}
 
-	public AccManagementController(Database database) {
+	public AccManagementController(DatabaseController database) {
 		this.database = database;
 	}
 
