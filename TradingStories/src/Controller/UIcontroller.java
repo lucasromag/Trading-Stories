@@ -4,31 +4,42 @@ import java.util.List;
 
 import Model.Book;
 import Model.OwlSpot;
+import Model.Transaction;
 import Model.User;
+import View.UIpageSellection;
 
 public class UIcontroller {
 
 	private int currentState;
 
-	private User currentUser;
+	private User currentUser = null;
+	
+	private UIpageSellection pageSellection;
+	
+	public UIcontroller(UIpageSellection entry)
+	{
+		pageSellection = entry;
+	}
 
+	// Needs specific code for different states
 	public void callCancel() {
-
+		currentUser = null;
+		pageSellection.callLandingPage();
 	}
 
 	public void callNewAccount() {
-
+		pageSellection.callAccountCreationPage();
 	}
 
 	public void callUserLogin() {
-
+		pageSellection.callLoginPage();
 	}
 
 	public User callLogin(String Username, String Password) {
 		return null;
 	}
 
-	public void callCreateUserAccount(String username, String password, char gender, String adress, String phoneNumber, String email, String nickname) {
+	public void callCreateUserAccount(String username, String password, String fullname, char gender, String adress, String phoneNumber, String email, String nickname) {
 
 	}
 
@@ -48,11 +59,11 @@ public class UIcontroller {
 
 	}
 
-	public void callExchangeProposals() {
+	public void callTransactionProposals() {
 
 	}
 
-	public void callExchangeInProgress() {
+	public void callTransactionInProgress() {
 
 	}
 
@@ -72,11 +83,11 @@ public class UIcontroller {
 		return null;
 	}
 
-	public void callProposeExchange(User user, Book book, List<OwlSpot> owlspots) {
+	public void callProposeTransaction(User user, Book book, List<OwlSpot> owlspots) {
 
 	}
 
-	public void callProposedExchangeChoice(Book bookWanted, Book bookOffered, OwlSpot owlspot) {
+	public void callProposedTransactionChoice(Book bookWanted, Book bookOffered, OwlSpot owlspot) {
 
 	}
 
@@ -84,15 +95,15 @@ public class UIcontroller {
 
 	}
 
-	public void callAcceptExchangeProposal(User user, Exchange exchange) {
+	public void callAcceptTransactionProposal(User user, Transaction transaction) {
 
 	}
 
-	public void callRejectExchangeProposal(User user, Exchange exchange) {
+	public void callRejectTransactionProposal(User user, Transaction transaction) {
 
 	}
 
-	public void callFinalizeExchange(User user, Exchange exchange, int owlscore) {
+	public void callFinalizeTransaction(User user, Transaction transaction, int owlscore) {
 
 	}
 

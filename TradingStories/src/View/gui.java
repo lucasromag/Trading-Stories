@@ -9,6 +9,12 @@ import java.awt.CardLayout;
 import javax.swing.JTextPane;
 import java.awt.Font;
 import javax.swing.UIManager;
+
+import Controller.UIcontroller;
+import Model.Book;
+import Model.OwlSpot;
+
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -16,6 +22,7 @@ import javax.swing.JRadioButton;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
@@ -26,67 +33,59 @@ import javax.swing.JEditorPane;
 import javax.swing.JRadioButtonMenuItem;
 
 public class gui {
-
+	
+	private UIcontroller uicontroller;
 	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JPasswordField passwordField;
-	private JTextField textField_8;
-	private JTextField textField_9;
-	private JTextField textField_10;
-	private JTextField textField_11;
-	private JTextField textField_12;
-	private JTextField textField_13;
-	private JTextField textField_14;
-	private JTextField textField_15;
-	private JTextField textField_16;
-	private JTextField textField_17;
-	private JTextField textField_18;
-	private JTextField textField_20;
-	private JTextField textField_21;
-	private JTextField textField_22;
-	private JTextField textField_23;
-	private JTextField textField_24;
-	private JTextField textField_25;
-	private JTextField textField_26;
-	private JTextField textField_27;
-	private JTextField textField_28;
-	private JTextField textField_29;
+	private JTextField newUsername;
+	private JTextField newPassword;
+	private JTextField newFullName;
+	private JTextField newAdress;
+	private JTextField newPhone;
+	private JTextField newEmail;
+	private JTextField newNickname;
+	private char newGender = 'O';
+	private JTextField loginUsername;
+	private JPasswordField loginPasswordField;
+	private JTextField newBookTitle;
+	private JTextField newBookAuthor;
+	private JTextField NewBookPublisher;
+	private JTextField NewBookRelease;
+	private JTextField newBookGenre;
+	private JTextField newBookState;
+	private JTextField bookSearchQuery;
+	private JTextField transactionProgressProponent;
+	private JTextField transactionProgressProponentBook;
+	private JTextField transactionProgressPropositionedBook;
+	private JTextField transactionProgressPropositioned;
+	private JTextField newAdminUsername;
+	private JTextField newAdminPassword;
+	private JTextField newAdminFullName;
+	private JTextField newAdminAdress;
+	private JTextField newAdminPhone;
+	private JTextField newAdminEmail;
+	private char newAdminGender = 'O';
+	private JTextField newOwlspotAdress;
+	private JTextField newOwlspotReference;
+	private JTextField newOwlspotName;
+	private JTextField userSearchQuery;
+	
+	private List<OwlSpot> proposableOwlspots;
+	
+	private int newOwlScore = 5;
+	private List<Book> proposableCollection;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					gui window = new gui();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
 	 */
-	public gui() {
+	public gui(UIcontroller controller) {
+		uicontroller = controller;
 		initialize();
 	}
 
+	public void setVisible() {
+		frame.setVisible(true);
+	}
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -128,26 +127,33 @@ public class gui {
 		
 		JButton btnCriarConta = new JButton("Criar Conta");
 		btnCriarConta.setBounds(169, 195, 89, 23);
+		btnCriarConta.addActionListener(new ActionListener()
+			{
+				public void actionPerformed(ActionEvent arg0)
+				{
+					uicontroller.callNewAccount();
+				}
+			});
 		panel_landing.add(btnCriarConta);
 		
 		JPanel panel_1_AccountCreation = new JPanel();
 		frame.getContentPane().add(panel_1_AccountCreation, "account_creation");
 		panel_1_AccountCreation.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(95, 42, 86, 20);
-		panel_1_AccountCreation.add(textField);
-		textField.setColumns(10);
+		newUsername = new JTextField();
+		newUsername.setBounds(95, 42, 86, 20);
+		panel_1_AccountCreation.add(newUsername);
+		newUsername.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(320, 42, 86, 20);
-		panel_1_AccountCreation.add(textField_1);
-		textField_1.setColumns(10);
+		newPassword = new JTextField();
+		newPassword.setBounds(320, 42, 86, 20);
+		panel_1_AccountCreation.add(newPassword);
+		newPassword.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(95, 73, 140, 20);
-		panel_1_AccountCreation.add(textField_2);
-		textField_2.setColumns(10);
+		newFullName = new JTextField();
+		newFullName.setBounds(95, 73, 140, 20);
+		panel_1_AccountCreation.add(newFullName);
+		newFullName.setColumns(10);
 		
 		JTextPane txtpnUsername = new JTextPane();
 		txtpnUsername.setEditable(false);
@@ -182,6 +188,36 @@ public class gui {
 		rdbtnOutro.setBounds(235, 103, 109, 23);
 		panel_1_AccountCreation.add(rdbtnOutro);
 		
+		ButtonGroup genderGroup = new ButtonGroup();
+		genderGroup.add(rdbtnMasculino);
+		genderGroup.add(rdbtnFeminino);
+		genderGroup.add(rdbtnOutro);
+		
+		rdbtnMasculino.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				newGender = 'M';
+			}
+		});
+		
+		rdbtnFeminino.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				newGender = 'F';
+			}
+		});
+		
+		rdbtnOutro.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				newGender = 'O';
+			}
+		});
+		
+		
 		JTextPane txtpnGnero = new JTextPane();
 		txtpnGnero.setEditable(false);
 		txtpnGnero.setBackground(UIManager.getColor("menu"));
@@ -204,10 +240,10 @@ public class gui {
 		txtpnEndereo.setBounds(10, 133, 79, 20);
 		panel_1_AccountCreation.add(txtpnEndereo);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(95, 133, 190, 20);
-		panel_1_AccountCreation.add(textField_3);
+		newAdress = new JTextField();
+		newAdress.setColumns(10);
+		newAdress.setBounds(95, 133, 190, 20);
+		panel_1_AccountCreation.add(newAdress);
 		
 		JTextPane txtpnTelefone = new JTextPane();
 		txtpnTelefone.setEditable(false);
@@ -216,10 +252,10 @@ public class gui {
 		txtpnTelefone.setBounds(10, 164, 79, 20);
 		panel_1_AccountCreation.add(txtpnTelefone);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(95, 164, 86, 20);
-		panel_1_AccountCreation.add(textField_4);
+		newPhone = new JTextField();
+		newPhone.setColumns(10);
+		newPhone.setBounds(95, 164, 86, 20);
+		panel_1_AccountCreation.add(newPhone);
 		
 		JTextPane txtpnEmail = new JTextPane();
 		txtpnEmail.setEditable(false);
@@ -228,10 +264,10 @@ public class gui {
 		txtpnEmail.setBounds(10, 195, 79, 20);
 		panel_1_AccountCreation.add(txtpnEmail);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(95, 195, 140, 20);
-		panel_1_AccountCreation.add(textField_5);
+		newEmail = new JTextField();
+		newEmail.setColumns(10);
+		newEmail.setBounds(95, 195, 140, 20);
+		panel_1_AccountCreation.add(newEmail);
 		
 		JTextPane txtpnApelido = new JTextPane();
 		txtpnApelido.setEditable(false);
@@ -240,18 +276,34 @@ public class gui {
 		txtpnApelido.setBounds(10, 226, 79, 20);
 		panel_1_AccountCreation.add(txtpnApelido);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(95, 226, 86, 20);
-		panel_1_AccountCreation.add(textField_6);
+		newNickname = new JTextField();
+		newNickname.setColumns(10);
+		newNickname.setBounds(95, 226, 86, 20);
+		panel_1_AccountCreation.add(newNickname);
 		
 		JButton btnCriarConta_1 = new JButton("Criar Conta");
 		btnCriarConta_1.setBounds(320, 164, 89, 23);
+		btnCriarConta_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+					uicontroller.callCreateUserAccount(newUsername.getText(), newPassword.getText(), newFullName.getText(), newGender, newAdress.getText(), newPhone.getText(), newEmail.getText(), newNickname.getText());
+			}
+		});
 		panel_1_AccountCreation.add(btnCriarConta_1);
 		
 		JButton btnNewButton_1 = new JButton("Cancelar");
 		btnNewButton_1.setBounds(320, 223, 89, 23);
+		btnNewButton_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callCancel();
+			}
+		});
 		panel_1_AccountCreation.add(btnNewButton_1);
+		
+		
 		
 		JPanel panel_2_UserLogin = new JPanel();
 		frame.getContentPane().add(panel_2_UserLogin, "user_login");
@@ -271,14 +323,14 @@ public class gui {
 		textPane.setBounds(107, 108, 224, 48);
 		panel_2_UserLogin.add(textPane);
 		
-		textField_7 = new JTextField();
-		textField_7.setBounds(169, 166, 119, 20);
-		panel_2_UserLogin.add(textField_7);
-		textField_7.setColumns(10);
+		loginUsername = new JTextField();
+		loginUsername.setBounds(169, 166, 119, 20);
+		panel_2_UserLogin.add(loginUsername);
+		loginUsername.setColumns(10);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(169, 197, 119, 20);
-		panel_2_UserLogin.add(passwordField);
+		loginPasswordField = new JPasswordField();
+		loginPasswordField.setBounds(169, 197, 119, 20);
+		panel_2_UserLogin.add(loginPasswordField);
 		
 		JTextPane txtpnUsurio = new JTextPane();
 		txtpnUsurio.setBackground(UIManager.getColor("menu"));
@@ -354,10 +406,10 @@ public class gui {
 		frame.getContentPane().add(panel_addBook, "add_book");
 		panel_addBook.setLayout(null);
 		
-		textField_8 = new JTextField();
-		textField_8.setBounds(90, 67, 140, 20);
-		panel_addBook.add(textField_8);
-		textField_8.setColumns(10);
+		newBookTitle = new JTextField();
+		newBookTitle.setBounds(90, 67, 140, 20);
+		panel_addBook.add(newBookTitle);
+		newBookTitle.setColumns(10);
 		
 		JTextPane txtpnTtulo = new JTextPane();
 		txtpnTtulo.setEditable(false);
@@ -373,10 +425,10 @@ public class gui {
 		txtpnAutor.setBounds(10, 98, 70, 20);
 		panel_addBook.add(txtpnAutor);
 		
-		textField_9 = new JTextField();
-		textField_9.setColumns(10);
-		textField_9.setBounds(90, 98, 140, 20);
-		panel_addBook.add(textField_9);
+		newBookAuthor = new JTextField();
+		newBookAuthor.setColumns(10);
+		newBookAuthor.setBounds(90, 98, 140, 20);
+		panel_addBook.add(newBookAuthor);
 		
 		JTextPane txtpnPublicadora = new JTextPane();
 		txtpnPublicadora.setEditable(false);
@@ -385,10 +437,10 @@ public class gui {
 		txtpnPublicadora.setBounds(10, 129, 70, 20);
 		panel_addBook.add(txtpnPublicadora);
 		
-		textField_10 = new JTextField();
-		textField_10.setColumns(10);
-		textField_10.setBounds(90, 129, 140, 20);
-		panel_addBook.add(textField_10);
+		NewBookPublisher = new JTextField();
+		NewBookPublisher.setColumns(10);
+		NewBookPublisher.setBounds(90, 129, 140, 20);
+		panel_addBook.add(NewBookPublisher);
 		
 		JTextPane txtpnDataDeLanamento = new JTextPane();
 		txtpnDataDeLanamento.setEditable(false);
@@ -397,10 +449,10 @@ public class gui {
 		txtpnDataDeLanamento.setBounds(10, 160, 70, 20);
 		panel_addBook.add(txtpnDataDeLanamento);
 		
-		textField_11 = new JTextField();
-		textField_11.setColumns(10);
-		textField_11.setBounds(90, 160, 140, 20);
-		panel_addBook.add(textField_11);
+		NewBookRelease = new JTextField();
+		NewBookRelease.setColumns(10);
+		NewBookRelease.setBounds(90, 160, 140, 20);
+		panel_addBook.add(NewBookRelease);
 		
 		JTextPane txtpnGnero_1 = new JTextPane();
 		txtpnGnero_1.setEditable(false);
@@ -409,10 +461,10 @@ public class gui {
 		txtpnGnero_1.setBounds(10, 191, 70, 20);
 		panel_addBook.add(txtpnGnero_1);
 		
-		textField_12 = new JTextField();
-		textField_12.setColumns(10);
-		textField_12.setBounds(90, 191, 140, 20);
-		panel_addBook.add(textField_12);
+		newBookGenre = new JTextField();
+		newBookGenre.setColumns(10);
+		newBookGenre.setBounds(90, 191, 140, 20);
+		panel_addBook.add(newBookGenre);
 		
 		JTextPane txtpnEstado = new JTextPane();
 		txtpnEstado.setEditable(false);
@@ -421,10 +473,10 @@ public class gui {
 		txtpnEstado.setBounds(10, 222, 70, 20);
 		panel_addBook.add(txtpnEstado);
 		
-		textField_13 = new JTextField();
-		textField_13.setColumns(10);
-		textField_13.setBounds(90, 222, 140, 20);
-		panel_addBook.add(textField_13);
+		newBookState = new JTextField();
+		newBookState.setColumns(10);
+		newBookState.setBounds(90, 222, 140, 20);
+		panel_addBook.add(newBookState);
 		
 		JButton btnAdicionar = new JButton("Adicionar");
 		btnAdicionar.setBounds(291, 188, 89, 23);
@@ -476,10 +528,10 @@ public class gui {
 		frame.getContentPane().add(panel_searchBook, "search_book");
 		panel_searchBook.setLayout(null);
 		
-		textField_14 = new JTextField();
-		textField_14.setBounds(10, 35, 193, 20);
-		panel_searchBook.add(textField_14);
-		textField_14.setColumns(10);
+		bookSearchQuery = new JTextField();
+		bookSearchQuery.setBounds(10, 35, 193, 20);
+		panel_searchBook.add(bookSearchQuery);
+		bookSearchQuery.setColumns(10);
 		
 		JTextPane txtpnDigiteSuaPesquisa = new JTextPane();
 		txtpnDigiteSuaPesquisa.setBackground(SystemColor.menu);
@@ -511,227 +563,272 @@ public class gui {
 		btnVoltar_2.setBounds(329, 228, 95, 23);
 		panel_searchBook.add(btnVoltar_2);
 		
-		JPanel panel_exchange = new JPanel();
-		frame.getContentPane().add(panel_exchange, "exchange_start");
-		panel_exchange.setLayout(null);
+		JPanel panel_transaction = new JPanel();
+		frame.getContentPane().add(panel_transaction, "transaction_start");
+		panel_transaction.setLayout(null);
 		
 		JButton btnVoltar_3 = new JButton("Voltar");
 		btnVoltar_3.setBounds(335, 228, 89, 23);
-		panel_exchange.add(btnVoltar_3);
+		panel_transaction.add(btnVoltar_3);
 		
 		JButton btnAceitar = new JButton("Aceitar");
 		btnAceitar.setBounds(335, 194, 89, 23);
-		panel_exchange.add(btnAceitar);
+		panel_transaction.add(btnAceitar);
 		
-		JTextPane textPane_2 = new JTextPane();
-		textPane_2.setBounds(68, 11, 203, 20);
-		panel_exchange.add(textPane_2);
+		JTextPane newProposalBookName = new JTextPane();
+		newProposalBookName.setEditable(false);
+		newProposalBookName.setBounds(68, 11, 203, 20);
+		panel_transaction.add(newProposalBookName);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(68, 124, 203, 20);
-		panel_exchange.add(comboBox);
+		JComboBox<String> comboBox_Owlspot = new JComboBox<String>();
+		comboBox_Owlspot.setBounds(68, 124, 203, 20);
+		panel_transaction.add(comboBox_Owlspot);
 		
 		JTextPane txtpnOwlspot = new JTextPane();
 		txtpnOwlspot.setEditable(false);
 		txtpnOwlspot.setBackground(SystemColor.menu);
 		txtpnOwlspot.setText("OwlSpot");
 		txtpnOwlspot.setBounds(10, 123, 48, 20);
-		panel_exchange.add(txtpnOwlspot);
+		panel_transaction.add(txtpnOwlspot);
 		
 		JTextPane txtpnBook = new JTextPane();
 		txtpnBook.setEditable(false);
 		txtpnBook.setBackground(SystemColor.menu);
 		txtpnBook.setText("Book");
 		txtpnBook.setBounds(10, 11, 48, 20);
-		panel_exchange.add(txtpnBook);
+		panel_transaction.add(txtpnBook);
 		
 		JTextPane txtpnCollection = new JTextPane();
 		txtpnCollection.setEditable(false);
 		txtpnCollection.setBackground(SystemColor.menu);
 		txtpnCollection.setText("Cole\u00E7\u00E3o");
 		txtpnCollection.setBounds(10, 68, 48, 20);
-		panel_exchange.add(txtpnCollection);
+		panel_transaction.add(txtpnCollection);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(68, 68, 203, 20);
-		panel_exchange.add(comboBox_1);
+		JComboBox<String> comboBox_Collection = new JComboBox<String>();
+		comboBox_Collection.setBounds(68, 68, 203, 20);
+		panel_transaction.add(comboBox_Collection);
 		
-		JPanel panel_exchangeProposal = new JPanel();
-		panel_exchangeProposal.setLayout(null);
-		frame.getContentPane().add(panel_exchangeProposal, "exchange_proposal");
+		JPanel panel_transactionProposal = new JPanel();
+		panel_transactionProposal.setLayout(null);
+		frame.getContentPane().add(panel_transactionProposal, "transaction_proposal");
 		
 		JButton button = new JButton("Voltar");
 		button.setBounds(335, 228, 89, 23);
-		panel_exchangeProposal.add(button);
+		panel_transactionProposal.add(button);
 		
 		JButton button_1 = new JButton("Aceitar");
 		button_1.setBounds(335, 153, 89, 23);
-		panel_exchangeProposal.add(button_1);
+		panel_transactionProposal.add(button_1);
 		
-		JTextPane textPane_4 = new JTextPane();
-		textPane_4.setBounds(68, 11, 203, 20);
-		panel_exchangeProposal.add(textPane_4);
+		JTextPane transactionProposalBookTitle = new JTextPane();
+		transactionProposalBookTitle.setBounds(68, 11, 203, 20);
+		panel_transactionProposal.add(transactionProposalBookTitle);
 		
 		JTextPane textPane_5 = new JTextPane();
 		textPane_5.setEditable(false);
 		textPane_5.setText("OwlSpot");
 		textPane_5.setBackground(SystemColor.menu);
 		textPane_5.setBounds(10, 181, 48, 20);
-		panel_exchangeProposal.add(textPane_5);
+		panel_transactionProposal.add(textPane_5);
 		
 		JTextPane txtpnLivro = new JTextPane();
 		txtpnLivro.setEditable(false);
 		txtpnLivro.setText("Livro");
 		txtpnLivro.setBackground(SystemColor.menu);
 		txtpnLivro.setBounds(10, 11, 48, 20);
-		panel_exchangeProposal.add(txtpnLivro);
+		panel_transactionProposal.add(txtpnLivro);
 		
 		JTextPane txtpnSeuLivro = new JTextPane();
 		txtpnSeuLivro.setEditable(false);
 		txtpnSeuLivro.setText("Seu Livro");
 		txtpnSeuLivro.setBackground(SystemColor.menu);
 		txtpnSeuLivro.setBounds(10, 126, 55, 20);
-		panel_exchangeProposal.add(txtpnSeuLivro);
+		panel_transactionProposal.add(txtpnSeuLivro);
 		
-		JTextPane textPane_8 = new JTextPane();
-		textPane_8.setBounds(68, 181, 203, 20);
-		panel_exchangeProposal.add(textPane_8);
+		JTextPane transactionProposalOwlspot = new JTextPane();
+		transactionProposalOwlspot.setBounds(68, 181, 203, 20);
+		panel_transactionProposal.add(transactionProposalOwlspot);
 		
-		JTextPane textPane_9 = new JTextPane();
-		textPane_9.setBounds(68, 126, 203, 20);
-		panel_exchangeProposal.add(textPane_9);
+		JTextPane transactionProposalYourBook = new JTextPane();
+		transactionProposalYourBook.setEditable(false);
+		transactionProposalYourBook.setBounds(68, 126, 203, 20);
+		panel_transactionProposal.add(transactionProposalYourBook);
 		
-		JTextPane textPane_6 = new JTextPane();
-		textPane_6.setBounds(68, 42, 203, 20);
-		panel_exchangeProposal.add(textPane_6);
+		JTextPane transactionProposalUsername = new JTextPane();
+		transactionProposalUsername.setBounds(68, 42, 203, 20);
+		panel_transactionProposal.add(transactionProposalUsername);
 		
 		JTextPane txtpnUsurio_1 = new JTextPane();
 		txtpnUsurio_1.setEditable(false);
 		txtpnUsurio_1.setText("Usu\u00E1rio");
 		txtpnUsurio_1.setBackground(SystemColor.menu);
 		txtpnUsurio_1.setBounds(10, 42, 48, 20);
-		panel_exchangeProposal.add(txtpnUsurio_1);
+		panel_transactionProposal.add(txtpnUsurio_1);
 		
-		JTextPane textPane_7 = new JTextPane();
-		textPane_7.setBounds(68, 212, 203, 20);
-		panel_exchangeProposal.add(textPane_7);
+		JTextPane transactionProposalDate = new JTextPane();
+		transactionProposalDate.setBounds(68, 212, 203, 20);
+		panel_transactionProposal.add(transactionProposalDate);
 		
 		JTextPane txtpnData = new JTextPane();
 		txtpnData.setEditable(false);
 		txtpnData.setText("Data");
 		txtpnData.setBackground(SystemColor.menu);
 		txtpnData.setBounds(10, 212, 48, 20);
-		panel_exchangeProposal.add(txtpnData);
+		panel_transactionProposal.add(txtpnData);
 		
 		JButton btnRejeitar = new JButton("Rejeitar");
 		btnRejeitar.setBounds(333, 187, 91, 23);
-		panel_exchangeProposal.add(btnRejeitar);
+		panel_transactionProposal.add(btnRejeitar);
 		
 		JButton btnVisualizarPerfil_1 = new JButton("Visualizar Perfil");
 		btnVisualizarPerfil_1.setBounds(327, 42, 105, 23);
-		panel_exchangeProposal.add(btnVisualizarPerfil_1);
+		panel_transactionProposal.add(btnVisualizarPerfil_1);
 		
-		JPanel panel_exchangeInProgress = new JPanel();
-		frame.getContentPane().add(panel_exchangeInProgress, "exchange_in_progress");
-		panel_exchangeInProgress.setLayout(null);
+		JPanel panel_transactionInProgress = new JPanel();
+		frame.getContentPane().add(panel_transactionInProgress, "transaction_in_progress");
+		panel_transactionInProgress.setLayout(null);
 		
 		JTextPane txtpnProponente = new JTextPane();
 		txtpnProponente.setEditable(false);
 		txtpnProponente.setBackground(SystemColor.menu);
 		txtpnProponente.setText("Proponente");
 		txtpnProponente.setBounds(10, 11, 76, 20);
-		panel_exchangeInProgress.add(txtpnProponente);
+		panel_transactionInProgress.add(txtpnProponente);
 		
-		textField_15 = new JTextField();
-		textField_15.setBounds(96, 11, 244, 20);
-		panel_exchangeInProgress.add(textField_15);
-		textField_15.setColumns(10);
+		transactionProgressProponent = new JTextField();
+		transactionProgressProponent.setBounds(96, 11, 244, 20);
+		panel_transactionInProgress.add(transactionProgressProponent);
+		transactionProgressProponent.setColumns(10);
 		
-		textField_16 = new JTextField();
-		textField_16.setColumns(10);
-		textField_16.setBounds(96, 42, 244, 20);
-		panel_exchangeInProgress.add(textField_16);
+		transactionProgressProponentBook = new JTextField();
+		transactionProgressProponentBook.setColumns(10);
+		transactionProgressProponentBook.setBounds(96, 42, 244, 20);
+		panel_transactionInProgress.add(transactionProgressProponentBook);
 		
 		JTextPane txtpnLivroOferecido = new JTextPane();
 		txtpnLivroOferecido.setEditable(false);
 		txtpnLivroOferecido.setBackground(SystemColor.menu);
 		txtpnLivroOferecido.setText("Livro oferecido");
 		txtpnLivroOferecido.setBounds(10, 42, 77, 20);
-		panel_exchangeInProgress.add(txtpnLivroOferecido);
+		panel_transactionInProgress.add(txtpnLivroOferecido);
 		
-		textField_17 = new JTextField();
-		textField_17.setColumns(10);
-		textField_17.setBounds(96, 135, 244, 20);
-		panel_exchangeInProgress.add(textField_17);
+		transactionProgressPropositionedBook = new JTextField();
+		transactionProgressPropositionedBook.setColumns(10);
+		transactionProgressPropositionedBook.setBounds(96, 135, 244, 20);
+		panel_transactionInProgress.add(transactionProgressPropositionedBook);
 		
 		JTextPane textPane_3 = new JTextPane();
 		textPane_3.setEditable(false);
 		textPane_3.setBackground(SystemColor.menu);
 		textPane_3.setText("Livro oferecido");
 		textPane_3.setBounds(10, 135, 77, 20);
-		panel_exchangeInProgress.add(textPane_3);
+		panel_transactionInProgress.add(textPane_3);
 		
 		JTextPane txtpnProposicionado = new JTextPane();
 		txtpnProposicionado.setEditable(false);
 		txtpnProposicionado.setBackground(SystemColor.menu);
 		txtpnProposicionado.setText("Proposicionado");
 		txtpnProposicionado.setBounds(10, 104, 76, 20);
-		panel_exchangeInProgress.add(txtpnProposicionado);
+		panel_transactionInProgress.add(txtpnProposicionado);
 		
-		textField_18 = new JTextField();
-		textField_18.setColumns(10);
-		textField_18.setBounds(96, 104, 244, 20);
-		panel_exchangeInProgress.add(textField_18);
+		transactionProgressPropositioned = new JTextField();
+		transactionProgressPropositioned.setColumns(10);
+		transactionProgressPropositioned.setBounds(96, 104, 244, 20);
+		panel_transactionInProgress.add(transactionProgressPropositioned);
 		
 		JButton btnVoltar_4 = new JButton("Voltar");
 		btnVoltar_4.setBounds(346, 239, 91, 23);
-		panel_exchangeInProgress.add(btnVoltar_4);
+		panel_transactionInProgress.add(btnVoltar_4);
 		
 		JButton btnReportar = new JButton("Reportar");
 		btnReportar.setBounds(346, 205, 91, 23);
-		panel_exchangeInProgress.add(btnReportar);
+		panel_transactionInProgress.add(btnReportar);
 		
 		JButton btnFinalizada = new JButton("Finalizada");
 		btnFinalizada.setBounds(159, 239, 91, 23);
-		panel_exchangeInProgress.add(btnFinalizada);
+		panel_transactionInProgress.add(btnFinalizada);
 		
 		JTextPane txtpnOwlscore = new JTextPane();
 		txtpnOwlscore.setEditable(false);
 		txtpnOwlscore.setBackground(SystemColor.menu);
 		txtpnOwlscore.setText("Owlscore:");
 		txtpnOwlscore.setBounds(39, 208, 51, 20);
-		panel_exchangeInProgress.add(txtpnOwlscore);
+		panel_transactionInProgress.add(txtpnOwlscore);
 		
 		JRadioButton radioButton_3 = new JRadioButton("1");
 		radioButton_3.setBounds(96, 205, 31, 23);
-		panel_exchangeInProgress.add(radioButton_3);
+		panel_transactionInProgress.add(radioButton_3);
 		
 		JRadioButton radioButton_4 = new JRadioButton("2");
 		radioButton_4.setBounds(138, 205, 31, 23);
-		panel_exchangeInProgress.add(radioButton_4);
+		panel_transactionInProgress.add(radioButton_4);
 		
 		JRadioButton radioButton_5 = new JRadioButton("3");
 		radioButton_5.setBounds(185, 205, 31, 23);
-		panel_exchangeInProgress.add(radioButton_5);
+		panel_transactionInProgress.add(radioButton_5);
 		
 		JRadioButton radioButton_6 = new JRadioButton("4");
 		radioButton_6.setBounds(234, 205, 31, 23);
-		panel_exchangeInProgress.add(radioButton_6);
+		panel_transactionInProgress.add(radioButton_6);
 		
 		JRadioButton radioButton_7 = new JRadioButton("5");
 		radioButton_7.setBounds(281, 205, 31, 23);
-		panel_exchangeInProgress.add(radioButton_7);
+		panel_transactionInProgress.add(radioButton_7);
+		
+		ButtonGroup owlstarGroup = new ButtonGroup();
+		owlstarGroup.add(radioButton_3);
+		owlstarGroup.add(radioButton_4);
+		owlstarGroup.add(radioButton_5);
+		owlstarGroup.add(radioButton_6);
+		owlstarGroup.add(radioButton_7);
+		
+		radioButton_3.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				newOwlScore = 1;
+			}
+		});
+		radioButton_4.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				newOwlScore = 2;
+			}
+		});
+		radioButton_5.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				newOwlScore = 3;
+			}
+		});
+		radioButton_6.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				newOwlScore = 4;
+			}
+		});
+		radioButton_7.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				newOwlScore = 5;
+			}
+		});
 		
 		JPanel panel_mainAdmin = new JPanel();
 		frame.getContentPane().add(panel_mainAdmin, "main_page_admin");
 		panel_mainAdmin.setLayout(null);
 		
-		JTextPane textPane_10 = new JTextPane();
-		textPane_10.setText("Bem vindo, %Name");
-		textPane_10.setEditable(false);
-		textPane_10.setBackground(SystemColor.menu);
-		textPane_10.setBounds(25, 61, 105, 20);
-		panel_mainAdmin.add(textPane_10);
+		JTextPane textPane_10_welcomeAdmin = new JTextPane();
+		textPane_10_welcomeAdmin.setText("Bem vindo, %Name");
+		textPane_10_welcomeAdmin.setEditable(false);
+		textPane_10_welcomeAdmin.setBackground(SystemColor.menu);
+		textPane_10_welcomeAdmin.setBounds(25, 61, 105, 20);
+		panel_mainAdmin.add(textPane_10_welcomeAdmin);
 		
 		JButton btnGerenciarOwlspots = new JButton("Gerenciar Owlspots");
 		btnGerenciarOwlspots.setBounds(25, 92, 140, 23);
@@ -765,20 +862,20 @@ public class gui {
 		panel_AdminAccountCreation.setLayout(null);
 		frame.getContentPane().add(panel_AdminAccountCreation, "account_creation_admin");
 		
-		textField_20 = new JTextField();
-		textField_20.setColumns(10);
-		textField_20.setBounds(95, 42, 86, 20);
-		panel_AdminAccountCreation.add(textField_20);
+		newAdminUsername = new JTextField();
+		newAdminUsername.setColumns(10);
+		newAdminUsername.setBounds(95, 42, 86, 20);
+		panel_AdminAccountCreation.add(newAdminUsername);
 		
-		textField_21 = new JTextField();
-		textField_21.setColumns(10);
-		textField_21.setBounds(320, 42, 86, 20);
-		panel_AdminAccountCreation.add(textField_21);
+		newAdminPassword = new JTextField();
+		newAdminPassword.setColumns(10);
+		newAdminPassword.setBounds(320, 42, 86, 20);
+		panel_AdminAccountCreation.add(newAdminPassword);
 		
-		textField_22 = new JTextField();
-		textField_22.setColumns(10);
-		textField_22.setBounds(95, 73, 140, 20);
-		panel_AdminAccountCreation.add(textField_22);
+		newAdminFullName = new JTextField();
+		newAdminFullName.setColumns(10);
+		newAdminFullName.setBounds(95, 73, 140, 20);
+		panel_AdminAccountCreation.add(newAdminFullName);
 		
 		JTextPane textPane_12 = new JTextPane();
 		textPane_12.setText("Username");
@@ -812,6 +909,37 @@ public class gui {
 		JRadioButton radioButton_2 = new JRadioButton("Outro");
 		radioButton_2.setBounds(235, 103, 109, 23);
 		panel_AdminAccountCreation.add(radioButton_2);
+
+		ButtonGroup genderGroupAdmin = new ButtonGroup();
+		genderGroupAdmin.add(radioButton);
+		genderGroupAdmin.add(radioButton_1);
+		genderGroupAdmin.add(radioButton_2);
+		
+		radioButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				newAdminGender = 'M';
+			}
+		});
+		
+		radioButton_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				newAdminGender = 'F';
+			}
+		});
+		
+		radioButton_2.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				newAdminGender = 'O';
+			}
+		});
+		
+		
 		
 		JTextPane textPane_15 = new JTextPane();
 		textPane_15.setText("G\u00EAnero");
@@ -835,10 +963,10 @@ public class gui {
 		textPane_17.setBounds(10, 133, 79, 20);
 		panel_AdminAccountCreation.add(textPane_17);
 		
-		textField_23 = new JTextField();
-		textField_23.setColumns(10);
-		textField_23.setBounds(95, 133, 190, 20);
-		panel_AdminAccountCreation.add(textField_23);
+		newAdminAdress = new JTextField();
+		newAdminAdress.setColumns(10);
+		newAdminAdress.setBounds(95, 133, 190, 20);
+		panel_AdminAccountCreation.add(newAdminAdress);
 		
 		JTextPane textPane_18 = new JTextPane();
 		textPane_18.setText("Telefone");
@@ -847,10 +975,10 @@ public class gui {
 		textPane_18.setBounds(10, 164, 79, 20);
 		panel_AdminAccountCreation.add(textPane_18);
 		
-		textField_24 = new JTextField();
-		textField_24.setColumns(10);
-		textField_24.setBounds(95, 164, 86, 20);
-		panel_AdminAccountCreation.add(textField_24);
+		newAdminPhone = new JTextField();
+		newAdminPhone.setColumns(10);
+		newAdminPhone.setBounds(95, 164, 86, 20);
+		panel_AdminAccountCreation.add(newAdminPhone);
 		
 		JTextPane textPane_19 = new JTextPane();
 		textPane_19.setText("E-mail");
@@ -859,10 +987,10 @@ public class gui {
 		textPane_19.setBounds(10, 195, 79, 20);
 		panel_AdminAccountCreation.add(textPane_19);
 		
-		textField_25 = new JTextField();
-		textField_25.setColumns(10);
-		textField_25.setBounds(95, 195, 140, 20);
-		panel_AdminAccountCreation.add(textField_25);
+		newAdminEmail = new JTextField();
+		newAdminEmail.setColumns(10);
+		newAdminEmail.setBounds(95, 195, 140, 20);
+		panel_AdminAccountCreation.add(newAdminEmail);
 		
 		JButton button_2 = new JButton("Criar Conta");
 		button_2.setBounds(320, 195, 89, 23);
@@ -903,10 +1031,10 @@ public class gui {
 		panel_addOwlspot.setLayout(null);
 		frame.getContentPane().add(panel_addOwlspot, "add_owlspots");
 		
-		textField_26 = new JTextField();
-		textField_26.setColumns(10);
-		textField_26.setBounds(90, 67, 140, 20);
-		panel_addOwlspot.add(textField_26);
+		newOwlspotAdress = new JTextField();
+		newOwlspotAdress.setColumns(10);
+		newOwlspotAdress.setBounds(90, 67, 140, 20);
+		panel_addOwlspot.add(newOwlspotAdress);
 		
 		JTextPane txtpnEndereo_1 = new JTextPane();
 		txtpnEndereo_1.setText("Endere\u00E7o");
@@ -922,10 +1050,10 @@ public class gui {
 		txtpnReferncia.setBounds(10, 98, 70, 20);
 		panel_addOwlspot.add(txtpnReferncia);
 		
-		textField_27 = new JTextField();
-		textField_27.setColumns(10);
-		textField_27.setBounds(90, 98, 140, 20);
-		panel_addOwlspot.add(textField_27);
+		newOwlspotReference = new JTextField();
+		newOwlspotReference.setColumns(10);
+		newOwlspotReference.setBounds(90, 98, 140, 20);
+		panel_addOwlspot.add(newOwlspotReference);
 		
 		JTextPane txtpnNome = new JTextPane();
 		txtpnNome.setText("Nome");
@@ -934,10 +1062,10 @@ public class gui {
 		txtpnNome.setBounds(10, 129, 70, 20);
 		panel_addOwlspot.add(txtpnNome);
 		
-		textField_28 = new JTextField();
-		textField_28.setColumns(10);
-		textField_28.setBounds(90, 129, 140, 20);
-		panel_addOwlspot.add(textField_28);
+		newOwlspotName = new JTextField();
+		newOwlspotName.setColumns(10);
+		newOwlspotName.setBounds(90, 129, 140, 20);
+		panel_addOwlspot.add(newOwlspotName);
 		
 		JButton button_3 = new JButton("Adicionar");
 		button_3.setBounds(291, 188, 89, 23);
@@ -965,10 +1093,6 @@ public class gui {
 		txtpnUsurio_2.setBounds(10, 11, 46, 20);
 		panel_userProfile.add(txtpnUsurio_2);
 		
-		JEditorPane editorPane = new JEditorPane();
-		editorPane.setBounds(10, 42, 284, 20);
-		panel_userProfile.add(editorPane);
-		
 		JList list_3 = new JList();
 		list_3.setBounds(10, 114, 284, 148);
 		panel_userProfile.add(list_3);
@@ -988,24 +1112,28 @@ public class gui {
 		txtpnOwlstars.setBounds(354, 94, 58, 20);
 		panel_userProfile.add(txtpnOwlstars);
 		
-		JTextPane textPane_16 = new JTextPane();
-		textPane_16.setText("5.0");
-		textPane_16.setFont(new Font("Tahoma", Font.PLAIN, 38));
-		textPane_16.setBounds(354, 42, 58, 52);
-		panel_userProfile.add(textPane_16);
+		JTextPane userProfileOwlstars = new JTextPane();
+		userProfileOwlstars.setFont(new Font("Tahoma", Font.PLAIN, 38));
+		userProfileOwlstars.setBounds(354, 42, 58, 52);
+		panel_userProfile.add(userProfileOwlstars);
 		
 		JButton btnVoltar_5 = new JButton("Voltar");
 		btnVoltar_5.setBounds(341, 239, 91, 23);
 		panel_userProfile.add(btnVoltar_5);
 		
+		JTextPane userProfileUsername = new JTextPane();
+		userProfileUsername.setEditable(false);
+		userProfileUsername.setBounds(10, 42, 213, 20);
+		panel_userProfile.add(userProfileUsername);
+		
 		JPanel panel_searchUser = new JPanel();
 		panel_searchUser.setLayout(null);
 		frame.getContentPane().add(panel_searchUser, "search_user");
 		
-		textField_29 = new JTextField();
-		textField_29.setColumns(10);
-		textField_29.setBounds(10, 35, 193, 20);
-		panel_searchUser.add(textField_29);
+		userSearchQuery = new JTextField();
+		userSearchQuery.setColumns(10);
+		userSearchQuery.setBounds(10, 35, 193, 20);
+		panel_searchUser.add(userSearchQuery);
 		
 		JTextPane txtpnPesquisarUsurio = new JTextPane();
 		txtpnPesquisarUsurio.setText("Pesquisar Usu\u00E1rio:");
@@ -1037,28 +1165,28 @@ public class gui {
 		button_11.setBounds(329, 228, 95, 23);
 		panel_searchUser.add(button_11);
 		
-		JPanel panel_exchangeProposals = new JPanel();
-		panel_exchangeProposals.setLayout(null);
-		frame.getContentPane().add(panel_exchangeProposals, "exchange_proposals");
+		JPanel panel_transactionProposals = new JPanel();
+		panel_transactionProposals.setLayout(null);
+		frame.getContentPane().add(panel_transactionProposals, "transaction_proposals");
 		
 		JTextPane txtpnPropostasDeTroca = new JTextPane();
 		txtpnPropostasDeTroca.setText("Propostas de troca");
 		txtpnPropostasDeTroca.setEditable(false);
 		txtpnPropostasDeTroca.setBackground(SystemColor.menu);
 		txtpnPropostasDeTroca.setBounds(10, 11, 154, 20);
-		panel_exchangeProposals.add(txtpnPropostasDeTroca);
+		panel_transactionProposals.add(txtpnPropostasDeTroca);
 		
 		JList list_5 = new JList();
 		list_5.setBounds(10, 42, 292, 209);
-		panel_exchangeProposals.add(list_5);
+		panel_transactionProposals.add(list_5);
 		
 		JButton btnVisualizarOferta = new JButton("Visualizar oferta");
 		btnVisualizarOferta.setBounds(312, 42, 120, 23);
-		panel_exchangeProposals.add(btnVisualizarOferta);
+		panel_transactionProposals.add(btnVisualizarOferta);
 		
 		JButton button_13 = new JButton("Voltar");
 		button_13.setBounds(329, 228, 95, 23);
-		panel_exchangeProposals.add(button_13);
+		panel_transactionProposals.add(button_13);
 		
 		JPanel panel_userProfileAdmin = new JPanel();
 		panel_userProfileAdmin.setLayout(null);
@@ -1070,10 +1198,6 @@ public class gui {
 		textPane_21.setBackground(SystemColor.menu);
 		textPane_21.setBounds(10, 11, 46, 20);
 		panel_userProfileAdmin.add(textPane_21);
-		
-		JEditorPane editorPane_1 = new JEditorPane();
-		editorPane_1.setBounds(10, 42, 284, 20);
-		panel_userProfileAdmin.add(editorPane_1);
 		
 		JList list_6 = new JList();
 		list_6.setBounds(10, 114, 284, 148);
@@ -1094,11 +1218,10 @@ public class gui {
 		textPane_24.setBounds(354, 94, 58, 20);
 		panel_userProfileAdmin.add(textPane_24);
 		
-		JTextPane textPane_25 = new JTextPane();
-		textPane_25.setText("5.0");
-		textPane_25.setFont(new Font("Tahoma", Font.PLAIN, 38));
-		textPane_25.setBounds(354, 42, 58, 52);
-		panel_userProfileAdmin.add(textPane_25);
+		JTextPane userProfileAdminOwlstars = new JTextPane();
+		userProfileAdminOwlstars.setFont(new Font("Tahoma", Font.PLAIN, 38));
+		userProfileAdminOwlstars.setBounds(354, 42, 58, 52);
+		panel_userProfileAdmin.add(userProfileAdminOwlstars);
 		
 		JButton button_10 = new JButton("Voltar");
 		button_10.setBounds(341, 239, 91, 23);
@@ -1107,11 +1230,25 @@ public class gui {
 		JButton btnRemoverUsurio = new JButton("Remover Usu\u00E1rio");
 		btnRemoverUsurio.setBounds(304, 205, 128, 23);
 		panel_userProfileAdmin.add(btnRemoverUsurio);
+		
+		JTextPane userProfileAdminUsername = new JTextPane();
+		userProfileAdminUsername.setEditable(false);
+		userProfileAdminUsername.setBounds(10, 42, 214, 20);
+		panel_userProfileAdmin.add(userProfileAdminUsername);
 	}
 
 	public void changePage(String page)
 	{
 		CardLayout cardLayout = (CardLayout) frame.getContentPane().getLayout();
 		cardLayout.show(frame.getContentPane(), page);
+	}
+	
+	public void setComboboxOwlSpots(List<OwlSpot> entry)
+	{
+		proposableOwlspots = entry;
+	}
+	public void setComboboxCollection(List<Book> entry)
+	{
+		 proposableCollection = entry;
 	}
 }
