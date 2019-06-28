@@ -129,4 +129,14 @@ public class DatabaseController {
 		this.clientAccounts.remove(client.getUsername());
 	}
 	
+	
+	public void exchangeBooks(Book b1, Book b2) {
+		delete(b1);
+		delete(b2);
+		b1.setOwner(b2.getOwner());
+		b2.setOwner(b1.getOwner());
+		add(b1);
+		add(b2);
+	}
+	
 }

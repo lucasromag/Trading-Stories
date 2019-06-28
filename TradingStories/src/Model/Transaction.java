@@ -49,6 +49,9 @@ public class Transaction {
 		return location;
 	}
 	
+	public void updateStatus(String status) {
+		this.status = status;
+	}
 	
 
 }

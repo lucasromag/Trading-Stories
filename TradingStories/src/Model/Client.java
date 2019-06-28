@@ -2,6 +2,7 @@ package Model;
 
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.function.Predicate;
 
 public class Client extends User {
@@ -49,6 +50,35 @@ public class Client extends User {
 		owlStars *= amountEval;
 		amountEval += 1;
 		owlStars = (owlStars + score)/ amountEval;
+	}
+	
+	
+	public Transaction getTransaction(Date date, Client user)
+	{
+		for(Transaction t : transactions)
+		{
+			if(date == t.getDate() && user == t.getUser())
+			{
+				return t;
+			}	
+	}
+			return null;
+	}
+	
+	
+	public boolean updateTransaction(String status, Date date, Client user)
+	{
+		Transaction t = getTransaction(date,user);
+		
+		if(t != null)
+		{
+			transactions.remove(t);
+			t.updateStatus(status);
+			transactions.add(t);
+			return true;
+		}
+		else
+			return false;
 	}
 	
 
