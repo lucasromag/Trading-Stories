@@ -29,6 +29,7 @@ public class UIpageSellection {
 	}
 
 	public void callUserMainPage(User user) {
+		window.setWelcomeName(user);
 		window.changePage("main_page");
 	}
 

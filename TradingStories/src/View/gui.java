@@ -7,14 +7,20 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import javax.swing.JTextPane;
+import javax.swing.ListSelectionModel;
+
 import java.awt.Font;
 import javax.swing.UIManager;
 
 import Controller.UIcontroller;
 import Model.Book;
+import Model.Client;
 import Model.OwlSpot;
+import Model.Transaction;
+import Model.User;
 
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -68,13 +74,57 @@ public class gui {
 	private JTextField newOwlspotReference;
 	private JTextField newOwlspotName;
 	private JTextField userSearchQuery;
-	
-	private List<OwlSpot> proposableOwlspots;
-	
 	private int newOwlScore = 5;
+	
+	private JComboBox<String> comboBox_Owlspot;
+	private List<OwlSpot> proposableOwlspots;
+	private int comboBox_OwlspotIndex;
+	
 	private List<Book> proposableCollection;
+	private JComboBox<String> comboBox_Collection;
+	private int comboBox_CollectionIndex;
+	
+	private List<Book> manageCollectionListBooks;
+	private DefaultListModel<String>  manageCollectionListModel;
+	private JList<String> manageCollectionList;
+	
+	private List<Book> bookSearchListBooks;
+	private DefaultListModel<String>  bookSearchListModel;
+	private JList<String> bookSearchList;
+	
+	private List<OwlSpot> manageOwlspotsListOwlspots;
+	private DefaultListModel<String>  manageOwlspotsListModel;
+	private JList<String> manageOwlspotsList;
 
-
+	private List<Book> userProfileListBooks;
+	private DefaultListModel<String>  userProfileListModel;
+	private JList<String> userProfileList;
+	
+	private List<User> userSearchListUsers;
+	private DefaultListModel<String>  userSearchListModel;
+	private JList<String> userSearchList;
+	
+	private List<Transaction> transactionProposalsListTransactions;
+	private DefaultListModel<String>  transactionProposalsListModel;
+	private JList<String> transactionProposalsList;
+	
+	private List<Book> userProfileAdminListBooks;
+	private DefaultListModel<String>  userProfileAdminListModel;
+	private JList<String> userProfileAdminList;
+	
+	private Book bookWanted;
+	private Transaction currentTransaction;
+	private JTextPane newProposalBookName;
+	private JTextPane transactionProposalBookTitle;
+	private JTextPane transactionProposalOwlspot;
+	private JTextPane transactionProposalYourBook;
+	private JTextPane transactionProposalUsername;
+	private JTextPane transactionProposalDate;
+	
+	private JTextPane userProfileOwlstars;
+	private JTextPane userProfileUsername;
+	
+	private JTextPane txtpnBemVindoname;
 	/**
 	 * Create the application.
 	 */
@@ -333,12 +383,14 @@ public class gui {
 		panel_2_UserLogin.add(loginPasswordField);
 		
 		JTextPane txtpnUsurio = new JTextPane();
+		txtpnUsurio.setEditable(false);
 		txtpnUsurio.setBackground(UIManager.getColor("menu"));
 		txtpnUsurio.setText("Usu\u00E1rio");
 		txtpnUsurio.setBounds(117, 166, 42, 20);
 		panel_2_UserLogin.add(txtpnUsurio);
 		
 		JTextPane txtpnSenha_1 = new JTextPane();
+		txtpnSenha_1.setEditable(false);
 		txtpnSenha_1.setBackground(UIManager.getColor("menu"));
 		txtpnSenha_1.setText("Senha");
 		txtpnSenha_1.setBounds(117, 197, 42, 20);
@@ -346,10 +398,24 @@ public class gui {
 		
 		JButton btnEntrar = new JButton("Entrar");
 		btnEntrar.setBounds(179, 228, 89, 23);
+		btnEntrar.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callLogin(loginUsername.getText(), String.valueOf(loginPasswordField.getPassword()));
+			}
+		});
 		panel_2_UserLogin.add(btnEntrar);
 		
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setBounds(335, 228, 89, 23);
+		btnVoltar.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callCancel();
+			}
+		});
 		panel_2_UserLogin.add(btnVoltar);
 		
 		JPanel panel_main = new JPanel();
@@ -363,43 +429,96 @@ public class gui {
 		textPane_1.setBounds(103, 0, 224, 48);
 		panel_main.add(textPane_1);
 		
-		JTextPane txtpnBemVindoname = new JTextPane();
+		txtpnBemVindoname = new JTextPane();
 		txtpnBemVindoname.setEditable(false);
 		txtpnBemVindoname.setBackground(UIManager.getColor("menu"));
-		txtpnBemVindoname.setText("Bem vindo, %Name");
 		txtpnBemVindoname.setBounds(25, 50, 105, 20);
 		panel_main.add(txtpnBemVindoname);
 		
 		JButton btnPesquisar = new JButton("Pesquisar Livro");
 		btnPesquisar.setBounds(281, 80, 151, 23);
+		btnPesquisar.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callSearchBook();
+			}
+		});
 		panel_main.add(btnPesquisar);
-		
 		JButton btnGerenciarColeo = new JButton("Gerenciar Cole\u00E7\u00E3o");
 		btnGerenciarColeo.setBounds(25, 81, 125, 23);
+		btnGerenciarColeo.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callManageCollection();
+			}
+		});
 		panel_main.add(btnGerenciarColeo);
 		
 		JButton btnNewButton = new JButton("Adicionar Livro");
 		btnNewButton.setBounds(25, 115, 125, 23);
+		btnNewButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callAddBook();
+			}
+		});
 		panel_main.add(btnNewButton);
 		
 		JButton btnPropostasDeTroca = new JButton("Propostas de troca");
 		btnPropostasDeTroca.setBounds(281, 114, 151, 23);
+		btnPropostasDeTroca.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callTransactionProposals();
+			}
+		});
 		panel_main.add(btnPropostasDeTroca);
 		
 		JButton btnProporOwlspot = new JButton("Sugerir Owlspot");
 		btnProporOwlspot.setBounds(292, 194, 132, 23);
+		btnProporOwlspot.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callSugestOwlspot();			}
+		});
 		panel_main.add(btnProporOwlspot);
 		
 		JButton btnLogout = new JButton("Logout");
 		btnLogout.setBounds(335, 228, 89, 23);
+		btnLogout.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callCancel();
+			}
+		});
 		panel_main.add(btnLogout);
 		
 		JButton btnTrocasEmAndamento = new JButton("Trocas em andamento");
 		btnTrocasEmAndamento.setBounds(281, 148, 151, 23);
+		btnTrocasEmAndamento.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callTransactionInProgress();
+			}
+		});
 		panel_main.add(btnTrocasEmAndamento);
 		
 		JButton btnPesquisarUsurio = new JButton("Pesquisar Usu\u00E1rio");
 		btnPesquisarUsurio.setBounds(25, 194, 125, 23);
+		btnPesquisarUsurio.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callSearchUser();
+			}
+		});
 		panel_main.add(btnPesquisarUsurio);
 		
 		JPanel panel_addBook = new JPanel();
@@ -480,10 +599,24 @@ public class gui {
 		
 		JButton btnAdicionar = new JButton("Adicionar");
 		btnAdicionar.setBounds(291, 188, 89, 23);
+		btnAdicionar.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callAddBookToCollection(newBookTitle.getText(), newBookAuthor.getText(), NewBookPublisher.getText(), NewBookRelease.getText(), newBookGenre.getText(), newBookState.getText());
+			}
+		});
 		panel_addBook.add(btnAdicionar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(291, 219, 89, 23);
+		btnCancelar.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callCancel();
+			}
+		});
 		panel_addBook.add(btnCancelar);
 		
 		JTextPane txtpnAdicionarLivro = new JTextPane();
@@ -504,24 +637,57 @@ public class gui {
 		txtpnGerencieSuaColeo.setBounds(21, 11, 107, 20);
 		panel_manageCollection.add(txtpnGerencieSuaColeo);
 		
-		JList list = new JList();
-		list.setBounds(21, 42, 304, 209);
-		panel_manageCollection.add(list);
+		manageCollectionListModel = new DefaultListModel<String>();
+		manageCollectionList = new JList<String>(manageCollectionListModel);
+		manageCollectionList.setBounds(21, 42, 304, 209);
+		manageCollectionList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		manageCollectionList.setLayoutOrientation(JList.VERTICAL);
+		panel_manageCollection.add(manageCollectionList);
 		
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.setBounds(335, 77, 89, 23);
+		btnEditar.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				System.out.println("não implementado");
+			}
+		});
 		panel_manageCollection.add(btnEditar);
 		
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.setBounds(335, 111, 89, 23);
+		btnRemover.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				int index = manageCollectionList.getSelectedIndex();
+				uicontroller.callRemoveBook(manageCollectionListBooks.get(index));
+				manageCollectionListModel.removeElementAt(index);
+			}
+		});
 		panel_manageCollection.add(btnRemover);
 		
 		JButton btnVoltar_1 = new JButton("Voltar");
 		btnVoltar_1.setBounds(335, 228, 89, 23);
+		btnVoltar_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callCancel();
+			}
+		});
 		panel_manageCollection.add(btnVoltar_1);
 		
 		JButton btnAdicionar_1 = new JButton("Adicionar");
 		btnAdicionar_1.setBounds(335, 42, 89, 23);
+		btnAdicionar_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callAddBook();
+			}
+		});
 		panel_manageCollection.add(btnAdicionar_1);
 		
 		JPanel panel_searchBook = new JPanel();
@@ -542,11 +708,21 @@ public class gui {
 		
 		JButton btnPesquisar_1 = new JButton("Pesquisar");
 		btnPesquisar_1.setBounds(213, 34, 89, 23);
+		btnPesquisar_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callSearchBookEntry(bookSearchQuery.getText());
+			}
+		});
 		panel_searchBook.add(btnPesquisar_1);
 		
-		JList list_1 = new JList();
-		list_1.setBounds(10, 96, 292, 155);
-		panel_searchBook.add(list_1);
+		bookSearchListModel = new DefaultListModel<String>();
+		bookSearchList = new JList<String>(bookSearchListModel);
+		bookSearchList.setBounds(10, 96, 292, 155);
+		bookSearchList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		bookSearchList.setLayoutOrientation(JList.VERTICAL);
+		panel_searchBook.add(bookSearchList);
 		
 		JTextPane txtpnResultados = new JTextPane();
 		txtpnResultados.setEditable(false);
@@ -557,10 +733,26 @@ public class gui {
 		
 		JButton btnProporTroca = new JButton("Propor Troca");
 		btnProporTroca.setBounds(312, 96, 120, 23);
+		btnProporTroca.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				bookWanted = bookSearchListBooks.get(bookSearchList.getSelectedIndex());
+				uicontroller.callProposeTransaction(bookWanted);
+				newProposalBookName.setText(bookWanted.getTitle());
+			}
+		});
 		panel_searchBook.add(btnProporTroca);
 		
 		JButton btnVoltar_2 = new JButton("Voltar");
 		btnVoltar_2.setBounds(329, 228, 95, 23);
+		btnVoltar_2.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callCancel();
+			}
+		});
 		panel_searchBook.add(btnVoltar_2);
 		
 		JPanel panel_transaction = new JPanel();
@@ -569,20 +761,42 @@ public class gui {
 		
 		JButton btnVoltar_3 = new JButton("Voltar");
 		btnVoltar_3.setBounds(335, 228, 89, 23);
+		btnVoltar_3.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callCancel();
+			}
+		});
 		panel_transaction.add(btnVoltar_3);
 		
 		JButton btnAceitar = new JButton("Aceitar");
 		btnAceitar.setBounds(335, 194, 89, 23);
+		btnAceitar.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callProposedTransactionChoice(bookWanted, proposableCollection.get(comboBox_CollectionIndex),proposableOwlspots.get(comboBox_OwlspotIndex));
+			}
+		});
 		panel_transaction.add(btnAceitar);
 		
-		JTextPane newProposalBookName = new JTextPane();
+		newProposalBookName = new JTextPane();
 		newProposalBookName.setEditable(false);
 		newProposalBookName.setBounds(68, 11, 203, 20);
 		panel_transaction.add(newProposalBookName);
 		
-		JComboBox<String> comboBox_Owlspot = new JComboBox<String>();
+		comboBox_Owlspot = new JComboBox<String>();
 		comboBox_Owlspot.setBounds(68, 124, 203, 20);
+		comboBox_Owlspot.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				comboBox_OwlspotIndex = comboBox_Owlspot.getSelectedIndex();
+			}
+		});
 		panel_transaction.add(comboBox_Owlspot);
+		
 		
 		JTextPane txtpnOwlspot = new JTextPane();
 		txtpnOwlspot.setEditable(false);
@@ -605,9 +819,18 @@ public class gui {
 		txtpnCollection.setBounds(10, 68, 48, 20);
 		panel_transaction.add(txtpnCollection);
 		
-		JComboBox<String> comboBox_Collection = new JComboBox<String>();
+		comboBox_Collection = new JComboBox<String>();
 		comboBox_Collection.setBounds(68, 68, 203, 20);
+		comboBox_Collection.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				comboBox_CollectionIndex = comboBox_Collection.getSelectedIndex();
+			}
+		});
 		panel_transaction.add(comboBox_Collection);
+		
+		
 		
 		JPanel panel_transactionProposal = new JPanel();
 		panel_transactionProposal.setLayout(null);
@@ -615,13 +838,27 @@ public class gui {
 		
 		JButton button = new JButton("Voltar");
 		button.setBounds(335, 228, 89, 23);
+		button.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callCancel();
+			}
+		});
 		panel_transactionProposal.add(button);
 		
 		JButton button_1 = new JButton("Aceitar");
 		button_1.setBounds(335, 153, 89, 23);
+		button_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callAcceptTransactionProposal(currentTransaction);
+			}
+		});
 		panel_transactionProposal.add(button_1);
 		
-		JTextPane transactionProposalBookTitle = new JTextPane();
+		transactionProposalBookTitle = new JTextPane();
 		transactionProposalBookTitle.setBounds(68, 11, 203, 20);
 		panel_transactionProposal.add(transactionProposalBookTitle);
 		
@@ -646,16 +883,16 @@ public class gui {
 		txtpnSeuLivro.setBounds(10, 126, 55, 20);
 		panel_transactionProposal.add(txtpnSeuLivro);
 		
-		JTextPane transactionProposalOwlspot = new JTextPane();
+		transactionProposalOwlspot = new JTextPane();
 		transactionProposalOwlspot.setBounds(68, 181, 203, 20);
 		panel_transactionProposal.add(transactionProposalOwlspot);
 		
-		JTextPane transactionProposalYourBook = new JTextPane();
+		transactionProposalYourBook = new JTextPane();
 		transactionProposalYourBook.setEditable(false);
 		transactionProposalYourBook.setBounds(68, 126, 203, 20);
 		panel_transactionProposal.add(transactionProposalYourBook);
 		
-		JTextPane transactionProposalUsername = new JTextPane();
+		transactionProposalUsername = new JTextPane();
 		transactionProposalUsername.setBounds(68, 42, 203, 20);
 		panel_transactionProposal.add(transactionProposalUsername);
 		
@@ -666,7 +903,7 @@ public class gui {
 		txtpnUsurio_1.setBounds(10, 42, 48, 20);
 		panel_transactionProposal.add(txtpnUsurio_1);
 		
-		JTextPane transactionProposalDate = new JTextPane();
+		transactionProposalDate = new JTextPane();
 		transactionProposalDate.setBounds(68, 212, 203, 20);
 		panel_transactionProposal.add(transactionProposalDate);
 		
@@ -679,10 +916,24 @@ public class gui {
 		
 		JButton btnRejeitar = new JButton("Rejeitar");
 		btnRejeitar.setBounds(333, 187, 91, 23);
+		btnRejeitar.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callRejectTransactionProposal(currentTransaction);
+			}
+		});
 		panel_transactionProposal.add(btnRejeitar);
 		
 		JButton btnVisualizarPerfil_1 = new JButton("Visualizar Perfil");
 		btnVisualizarPerfil_1.setBounds(327, 42, 105, 23);
+		btnVisualizarPerfil_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callUserProfile(currentTransaction.getUser());
+			}
+		});
 		panel_transactionProposal.add(btnVisualizarPerfil_1);
 		
 		JPanel panel_transactionInProgress = new JPanel();
@@ -739,14 +990,35 @@ public class gui {
 		
 		JButton btnVoltar_4 = new JButton("Voltar");
 		btnVoltar_4.setBounds(346, 239, 91, 23);
+		btnVoltar_4.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callCancel();
+			}
+		});
 		panel_transactionInProgress.add(btnVoltar_4);
 		
 		JButton btnReportar = new JButton("Reportar");
 		btnReportar.setBounds(346, 205, 91, 23);
+		btnReportar.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				System.out.println("não implementado");
+			}
+		});
 		panel_transactionInProgress.add(btnReportar);
 		
 		JButton btnFinalizada = new JButton("Finalizada");
 		btnFinalizada.setBounds(159, 239, 91, 23);
+		btnFinalizada.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callFinalizeTransaction(currentTransaction, newOwlScore);
+			}
+		});
 		panel_transactionInProgress.add(btnFinalizada);
 		
 		JTextPane txtpnOwlscore = new JTextPane();
@@ -1011,9 +1283,12 @@ public class gui {
 		txtpnGerencieOsOwlspots.setBounds(21, 11, 115, 20);
 		panel_manageOwlspots.add(txtpnGerencieOsOwlspots);
 		
-		JList list_2 = new JList();
-		list_2.setBounds(21, 42, 304, 209);
-		panel_manageOwlspots.add(list_2);
+		manageOwlspotsListModel = new DefaultListModel<String>();
+		manageOwlspotsList = new JList<String>(manageOwlspotsListModel);
+		manageOwlspotsList.setBounds(21, 42, 304, 209);
+		manageOwlspotsList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		manageOwlspotsList.setLayoutOrientation(JList.VERTICAL);
+		panel_manageOwlspots.add(manageOwlspotsList);
 		
 		JButton button_4 = new JButton("Remover");
 		button_4.setBounds(335, 111, 89, 23);
@@ -1093,9 +1368,12 @@ public class gui {
 		txtpnUsurio_2.setBounds(10, 11, 46, 20);
 		panel_userProfile.add(txtpnUsurio_2);
 		
-		JList list_3 = new JList();
-		list_3.setBounds(10, 114, 284, 148);
-		panel_userProfile.add(list_3);
+		userProfileListModel = new DefaultListModel<String>();
+		userProfileList = new JList<String>(userProfileListModel);
+		userProfileList.setBounds(10, 114, 284, 148);
+		userProfileList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		userProfileList.setLayoutOrientation(JList.VERTICAL);
+		panel_userProfile.add(userProfileList);
 		
 		JTextPane txtpnCatlogo = new JTextPane();
 		txtpnCatlogo.setEditable(false);
@@ -1112,16 +1390,23 @@ public class gui {
 		txtpnOwlstars.setBounds(354, 94, 58, 20);
 		panel_userProfile.add(txtpnOwlstars);
 		
-		JTextPane userProfileOwlstars = new JTextPane();
+		userProfileOwlstars = new JTextPane();
 		userProfileOwlstars.setFont(new Font("Tahoma", Font.PLAIN, 38));
 		userProfileOwlstars.setBounds(354, 42, 58, 52);
 		panel_userProfile.add(userProfileOwlstars);
 		
 		JButton btnVoltar_5 = new JButton("Voltar");
 		btnVoltar_5.setBounds(341, 239, 91, 23);
+		btnVoltar_5.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callCancel();
+			}
+		});
 		panel_userProfile.add(btnVoltar_5);
 		
-		JTextPane userProfileUsername = new JTextPane();
+		userProfileUsername = new JTextPane();
 		userProfileUsername.setEditable(false);
 		userProfileUsername.setBounds(10, 42, 213, 20);
 		panel_userProfile.add(userProfileUsername);
@@ -1144,11 +1429,21 @@ public class gui {
 		
 		JButton button_9 = new JButton("Pesquisar");
 		button_9.setBounds(213, 34, 89, 23);
+		button_9.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callSearchUserEntry(userSearchQuery.getText());
+			}
+		});
 		panel_searchUser.add(button_9);
 		
-		JList list_4 = new JList();
-		list_4.setBounds(10, 96, 292, 155);
-		panel_searchUser.add(list_4);
+		userSearchListModel = new DefaultListModel<String>();
+		userSearchList = new JList<String>(userSearchListModel);
+		userSearchList.setBounds(10, 96, 292, 155);
+		userSearchList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		userSearchList.setLayoutOrientation(JList.VERTICAL);
+		panel_searchUser.add(userSearchList);
 		
 		JTextPane textPane_22 = new JTextPane();
 		textPane_22.setEditable(false);
@@ -1159,10 +1454,24 @@ public class gui {
 		
 		JButton btnVisualizarPerfil = new JButton("Visualizar perfil");
 		btnVisualizarPerfil.setBounds(312, 96, 120, 23);
+		btnVisualizarPerfil.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callUserProfile(userSearchListUsers.get(userSearchList.getSelectedIndex()));
+			}
+		});
 		panel_searchUser.add(btnVisualizarPerfil);
 		
 		JButton button_11 = new JButton("Voltar");
 		button_11.setBounds(329, 228, 95, 23);
+		button_11.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callCancel();
+			}
+		});
 		panel_searchUser.add(button_11);
 		
 		JPanel panel_transactionProposals = new JPanel();
@@ -1176,16 +1485,33 @@ public class gui {
 		txtpnPropostasDeTroca.setBounds(10, 11, 154, 20);
 		panel_transactionProposals.add(txtpnPropostasDeTroca);
 		
-		JList list_5 = new JList();
-		list_5.setBounds(10, 42, 292, 209);
-		panel_transactionProposals.add(list_5);
+		transactionProposalsListModel = new DefaultListModel<String>();
+		transactionProposalsList = new JList<String>(transactionProposalsListModel);
+		transactionProposalsList.setBounds(10, 42, 292, 209);
+		transactionProposalsList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		transactionProposalsList.setLayoutOrientation(JList.VERTICAL);
+		panel_transactionProposals.add(transactionProposalsList);
 		
 		JButton btnVisualizarOferta = new JButton("Visualizar oferta");
 		btnVisualizarOferta.setBounds(312, 42, 120, 23);
+		btnVisualizarOferta.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callViewTransactionProposal(transactionProposalsListTransactions.get(transactionProposalsList.getSelectedIndex()));
+			}
+		});
 		panel_transactionProposals.add(btnVisualizarOferta);
 		
 		JButton button_13 = new JButton("Voltar");
 		button_13.setBounds(329, 228, 95, 23);
+		button_13.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				uicontroller.callCancel();
+			}
+		});
 		panel_transactionProposals.add(button_13);
 		
 		JPanel panel_userProfileAdmin = new JPanel();
@@ -1199,9 +1525,12 @@ public class gui {
 		textPane_21.setBounds(10, 11, 46, 20);
 		panel_userProfileAdmin.add(textPane_21);
 		
-		JList list_6 = new JList();
-		list_6.setBounds(10, 114, 284, 148);
-		panel_userProfileAdmin.add(list_6);
+		userProfileAdminListModel = new DefaultListModel<String>();
+		userProfileAdminList = new JList<String>(userProfileAdminListModel);
+		userProfileAdminList.setBounds(10, 114, 284, 148);
+		userProfileAdminList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		userProfileAdminList.setLayoutOrientation(JList.VERTICAL);
+		panel_userProfileAdmin.add(userProfileAdminList);
 		
 		JTextPane textPane_23 = new JTextPane();
 		textPane_23.setEditable(false);
@@ -1246,9 +1575,122 @@ public class gui {
 	public void setComboboxOwlSpots(List<OwlSpot> entry)
 	{
 		proposableOwlspots = entry;
+		for (OwlSpot owlspot : proposableOwlspots)
+		{
+			comboBox_Owlspot.addItem(owlspot.getName());
+		}
 	}
 	public void setComboboxCollection(List<Book> entry)
 	{
-		 proposableCollection = entry;
+		proposableCollection = entry;
+		for (Book book : proposableCollection)
+		{
+			comboBox_Collection.addItem(book.getTitle());
+		}
+	}
+	public void setListCollection(List<Book> entry)
+	{
+		manageCollectionListBooks = entry;
+		for (Book book : manageCollectionListBooks)
+		{
+			manageCollectionListModel.addElement(book.getTitle());
+		}
+	}
+	
+	public void setListBookSearch(List<Book> entry)
+	{
+		bookSearchListBooks = entry;
+		for (Book book : bookSearchListBooks)
+		{
+			bookSearchListModel.addElement(book.getTitle());
+		}
+	}
+	public void setListManageOwlspots(List<OwlSpot> entry)
+	{
+		manageOwlspotsListOwlspots = entry;
+		for (OwlSpot owlspot : manageOwlspotsListOwlspots)
+		{
+			manageOwlspotsListModel.addElement(owlspot.getName());
+		}
+	}
+	
+	public void setListUserProfileBooks(List<Book> entry)
+	{
+		userProfileListBooks = entry;
+		for (Book book : userProfileListBooks)
+		{
+			userProfileListModel.addElement(book.getTitle());
+		}
+	}
+	public void setListUserSearch(List<User> entry)
+	{
+		userSearchListUsers = entry;
+		for (User user : userSearchListUsers)
+		{
+			userSearchListModel.addElement(user.getUsername());
+		}
+	}
+	public void setListTransactionProposals(List<Transaction> entry)
+	{
+		transactionProposalsListTransactions = entry;
+		for (Transaction transaction : transactionProposalsListTransactions)
+		{
+			transactionProposalsListModel.addElement(transaction.getReceivedBook().getTitle());
+		}
+	}
+	public void setListUserProfileAdminBooks(List<Book> entry)
+	{
+		userProfileAdminListBooks = entry;
+		for (Book book : userProfileAdminListBooks)
+		{
+			userProfileAdminListModel.addElement(book.getTitle());
+		}
+	}
+	
+	public void clearListCollection()
+	{
+		manageCollectionListModel.clear();
+	}
+	public void clearListBookSearch()
+	{
+		bookSearchListModel.clear();
+	}
+	public void clearListManageOwlspots()
+	{
+		manageOwlspotsListModel.clear();
+	}
+	public void clearListUserProfileBooks()
+	{
+		userProfileListModel.clear();
+	}
+	public void clearListUserSearch()
+	{
+			userSearchListModel.clear();
+	}
+	public void clearListTransactionProposals()
+	{
+		transactionProposalsListModel.clear();
+	}
+	public void clearListUserProfileAdminBooks()
+	{
+		userProfileAdminListModel.clear();
+	}
+	public void setUserAndOwlstar(Client client)
+	{
+		userProfileOwlstars.setText(String.format("%.1f",client.getOwlStars()));
+		userProfileUsername.setText(client.getUsername());
+	}
+	public void setTransactionInfo(Transaction transaction)
+	{
+		transactionProposalBookTitle.setText(transaction.getReceivedBook().getTitle());
+		transactionProposalOwlspot.setText(transaction.getLocation().getName());
+		transactionProposalYourBook.setText(transaction.getBookGiven().getTitle());
+		transactionProposalUsername.setText(transaction.getUser().getUsername());
+		transactionProposalDate.setText(transaction.getDate().toString());
+		
+	}
+	public void setWelcomeName(User user)
+	{
+		txtpnBemVindoname.setText("Bem vindo, " + user.getUsername());
 	}
 }

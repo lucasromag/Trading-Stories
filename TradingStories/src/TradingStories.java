@@ -29,7 +29,7 @@ public class TradingStories {
 		Collection<Book> books = clientOperationController.filterByTitle("A crise");
 		UIpageSellection uipagesellection = new UIpageSellection();
 		
-		UIcontroller uicontroller = new UIcontroller(uipagesellection);		
+		UIcontroller uicontroller = new UIcontroller(uipagesellection, accManagementController);		
 		
 		for(Book b : books) {
 			System.out.println(b.getTitle());

@@ -2,7 +2,9 @@ package Controller;
 
 import java.util.List;
 
+import Model.Administrator;
 import Model.Book;
+import Model.Client;
 import Model.OwlSpot;
 import Model.Transaction;
 import Model.User;
@@ -15,10 +17,12 @@ public class UIcontroller {
 	private User currentUser = null;
 	
 	private UIpageSellection pageSellection;
+	private AccManagementController acccontroller;
 	
-	public UIcontroller(UIpageSellection entry)
+	public UIcontroller(UIpageSellection pagemanag, AccManagementController accmanagcontroller)
 	{
-		pageSellection = entry;
+		pageSellection = pagemanag;
+		acccontroller = accmanagcontroller;
 	}
 
 	// Needs specific code for different states
@@ -36,6 +40,22 @@ public class UIcontroller {
 	}
 
 	public User callLogin(String Username, String Password) {
+		currentUser = acccontroller.login(Username, Password);
+		if (currentUser != null)
+		{
+			if (currentUser instanceof Client)
+			{
+				pageSellection.callUserMainPage(currentUser);
+			}
+			else if (currentUser instanceof Administrator)
+			{
+				pageSellection.callAdminMainPage(currentUser);
+			}
+		}
+		else
+		{
+			pageSellection.callLandingPage();
+		}
 		return null;
 	}
 
@@ -83,7 +103,7 @@ public class UIcontroller {
 		return null;
 	}
 
-	public void callProposeTransaction(User user, Book book, List<OwlSpot> owlspots) {
+	public void callProposeTransaction(Book book) {
 
 	}
 
@@ -95,15 +115,15 @@ public class UIcontroller {
 
 	}
 
-	public void callAcceptTransactionProposal(User user, Transaction transaction) {
+	public void callAcceptTransactionProposal(Transaction transaction) {
 
 	}
 
-	public void callRejectTransactionProposal(User user, Transaction transaction) {
+	public void callRejectTransactionProposal(Transaction transaction) {
 
 	}
 
-	public void callFinalizeTransaction(User user, Transaction transaction, int owlscore) {
+	public void callFinalizeTransaction(Transaction transaction, int owlscore) {
 
 	}
 
@@ -125,6 +145,10 @@ public class UIcontroller {
 
 	public void callCreateAdminAccount(String username, String password, char gender, String adress, String phoneNumber, String email) {
 
+	}
+	
+	public void callViewTransactionProposal(Transaction transaction) {
+		
 	}
 
 }
