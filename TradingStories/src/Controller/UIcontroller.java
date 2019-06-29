@@ -63,7 +63,8 @@ public class UIcontroller {
 	}
 
 	public void callCreateUserAccount(String username, String password, String fullname, char gender, String adress, String phoneNumber, String email, String nickname) {
-
+		acccontroller.clientSignup(username, password, fullname, gender, adress, phoneNumber, nickname, email);
+		pageSellection.callLandingPage();
 	}
 
 	public void callManageCollection() {
@@ -75,7 +76,8 @@ public class UIcontroller {
 	}
 
 	public void callSearchUser() {
-
+		List<Client> listAllClients = new ArrayList<Client>(clientOpController.listAllClients());
+		pageSellection.callSearchUserPage(listAllClients);
 	}
 
 	public void callSearchBook() {

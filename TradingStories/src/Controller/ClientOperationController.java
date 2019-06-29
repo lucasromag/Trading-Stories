@@ -133,6 +133,10 @@ public class ClientOperationController {
 		return trans;
 	}
 	
+	public Collection<Client> listAllClients(){
+		return database.getAllClientAccounts();
+	}
+	
 
 	
 }

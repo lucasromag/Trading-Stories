@@ -3,6 +3,7 @@ package View;
 import java.util.List;
 
 import Model.Book;
+import Model.Client;
 import Model.OwlSpot;
 import Model.Transaction;
 import Model.User;
@@ -63,7 +64,9 @@ public class UIpageSellection {
 		window.changePage("user_profile");
 	}
 
-	public void callSearchUserPage() {
+	public void callSearchUserPage(List<Client> allclients) {
+		window.clearListUserSearch();
+		window.setListUserSearch(allclients);
 		window.changePage("search_user");
 	}
 

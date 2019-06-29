@@ -100,7 +100,7 @@ public class gui {
 	private DefaultListModel<String>  userProfileListModel;
 	private JList<String> userProfileList;
 	
-	private List<User> userSearchListUsers;
+	private List<Client> userSearchListUsers;
 	private DefaultListModel<String>  userSearchListModel;
 	private JList<String> userSearchList;
 	
@@ -1622,12 +1622,12 @@ public class gui {
 			userProfileListModel.addElement(book.getTitle());
 		}
 	}
-	public void setListUserSearch(List<User> entry)
+	public void setListUserSearch(List<Client> entry)
 	{
 		userSearchListUsers = entry;
-		for (User user : userSearchListUsers)
+		for (Client client : userSearchListUsers)
 		{
-			userSearchListModel.addElement(user.getUsername());
+			userSearchListModel.addElement(client.getUsername());
 		}
 	}
 	public void setListTransactionProposals(List<Transaction> entry)
