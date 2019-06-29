@@ -1,5 +1,6 @@
 package Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Model.Administrator;
@@ -18,11 +19,13 @@ public class UIcontroller {
 	
 	private UIpageSellection pageSellection;
 	private AccManagementController acccontroller;
+	private ClientOperationController clientOpController;
 	
-	public UIcontroller(UIpageSellection pagemanag, AccManagementController accmanagcontroller)
+	public UIcontroller(UIpageSellection pagemanag, AccManagementController accmanagcontroller, ClientOperationController clientopcontrol)
 	{
 		pageSellection = pagemanag;
 		acccontroller = accmanagcontroller;
+		clientOpController = clientopcontrol;
 	}
 
 	// Needs specific code for different states
@@ -76,7 +79,8 @@ public class UIcontroller {
 	}
 
 	public void callSearchBook() {
-
+		List<Book> listAllBooks = new ArrayList<Book>(clientOpController.listAllBooks());
+		pageSellection.callSearchBookPage(listAllBooks);
 	}
 
 	public void callTransactionProposals() {
@@ -100,6 +104,8 @@ public class UIcontroller {
 	}
 
 	public List<Book> callSearchBookEntry(String query) {
+		List<Book> listResultBooks = new ArrayList<Book>(clientOpController.filterByTitle(query));
+		pageSellection.callSearchBookPage(listResultBooks);
 		return null;
 	}
 

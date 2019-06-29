@@ -41,7 +41,9 @@ public class UIpageSellection {
 		window.changePage("manage_collection");
 	}
 
-	public void callSearchBookPage() {
+	public void callSearchBookPage(List<Book> books) {
+		window.clearListBookSearch();
+		window.setListBookSearch(books);
 		window.changePage("search_book");
 	}
 

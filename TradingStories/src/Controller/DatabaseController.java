@@ -42,9 +42,13 @@ public class DatabaseController {
 		Date today = new Date();
 		Book b1 = new Book("A crise de 1942","Jose Fagundes","Nintendo",today,"Destroyed","Horror",client1);
 		Book b2 = new Book("A crise de 1943","Jose Fagundes","Nintendo",today,"Destroyed","Horror",client2);
+		Book b3 = new Book("João e Maria","Tua Vó","jesus",today,"Destroyed","Horror",client2);
+		Book b4 = new Book("A calma de 1943","Jose Fagundes","Nintendo",today,"Destroyed","Horror",client2);
 		//client1.addBook();
 		add(b1);
 		add(b2);
+		add(b3);
+		add(b4);
 		add(admin1);
 		
 	}
